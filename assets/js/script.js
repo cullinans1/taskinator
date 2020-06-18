@@ -108,5 +108,6 @@ var editTask = function(taskId) {
     document.querySelector("select[name='task-type']").value = taskType;
     document.querySelector("#save-task").textContent = "Save Task";
     formEl.setAttribute("data-task-id", taskId);
+    
 };
 pageContentEl.addEventListener("click", taskButtonHandler);
