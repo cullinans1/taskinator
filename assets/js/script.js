@@ -31,7 +31,7 @@ var taskFormHandler = function(event) {
         };
         createTaskEl(taskDataObj);
     } 
-}
+};
 var completeEditTask = function(taskName, taskType, taskId) {
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
     taskSelected.querySelector("h3.task-name").textContent = taskName;
@@ -45,6 +45,7 @@ var completeEditTask = function(taskName, taskType, taskId) {
     alert("Task updated!");
     formEl.removeAttribute("data-task-id");
     document.querySelector("#save-task").textContent = "Add Task";
+    saveTasks();
 };
 var createTaskEl = function(taskDataObj) {
     //create list item
@@ -69,7 +70,8 @@ var createTaskEl = function(taskDataObj) {
 
     //increase task counter for next unique ID
     taskIdCounter++;
-}
+    saveTasks();
+};
 var createTaskActions = function(taskId) {
     var actionContainerEl = document.createElement("div");
     actionContainerEl.className = "task-actions";
@@ -105,7 +107,7 @@ var createTaskActions = function(taskId) {
     }
 
     return actionContainerEl;
-}
+};
 formEl.addEventListener("submit" , taskFormHandler);
 
 var taskButtonHandler = function(event) {
@@ -132,6 +134,7 @@ var deleteTask = function(taskId) {
         }
     };
     tasks = updatedTaskArr;
+    saveTasks();
 };
 var editTask = function(taskId) {
 
@@ -163,6 +166,7 @@ var taskStatusChangeHandler = function(event) {
             tasks[i].status = statusValue;
         }
     };
+    saveTasks();
 };
 var dragTaskHandler = function(event) {
     var taskId = event.target.getAttribute("data-task-id");
@@ -199,14 +203,18 @@ var dropTaskHandler = function(event) {
             tasks[i].status = statusSelectEl.value.toLowerCase();
         }
     };
+    saveTasks();
 };
 var dragLeaveHandler = function(event) {
     var taskListEl = event.target.closest(".task-list");
     if (taskListEl) {
         taskListEl.removeAttribute("style");
     }
-}
+};
 
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 pageContentEl.addEventListener("dragstart", dragTaskHandler);
